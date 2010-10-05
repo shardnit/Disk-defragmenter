@@ -1,0 +1,3 @@
+After deletion of old files and generation of new files, the blocks of many files in a file system will often be noncontiguous, that is, the blocks will no longer be adjacent to each other. In MINIX, file system fragmentation can occur easily because of its mechanism for allocating new blocks.
+
+Fragmentation can cause performance problems, since reading in a (set of) block(s) of a file means that the disk head has to move to different, possibly nonadjacent, locations on the disk. This project is aimed at writing a simple defragmenter utility for MINIX3.
