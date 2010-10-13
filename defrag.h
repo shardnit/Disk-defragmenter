@@ -20,7 +20,6 @@
 #include "/usr/src/servers/fs/const.h"
 #include "/usr/src/servers/fs/type.h"
 #include "/usr/src/servers/fs/super.h"
-#include "/usr/src/servers/fs/inode.h"
 
 #undef printf /* define printf to normal printf */ 
 #include <stdio.h>
@@ -42,3 +41,6 @@
 
 /* Global values */
 char *src_file_system, *dst_file_system;
+unsigned char *global_buffer;
+unsigned char  *dst_inode_bitmap, *dst_zone_bitmap, *src_inode_bitmap, *src_zone_bitmap;
+int written_blocks=1;
