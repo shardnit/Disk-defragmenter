@@ -230,6 +230,7 @@ main(int argc, char **argv)
 	long src_inode_fd, dst_inode_fd;
 	d2_inode *src_inode, *dst_inode;
 	int i, j, k, inode_num, ret_value;
+	char *cmd;
 
 	/* number of arguments provided should be exactly 3 */
 	if (argc != 3) {
@@ -306,6 +307,17 @@ main(int argc, char **argv)
 	src_inode_fd = lseek(src_fs_fd, BLOCK_SIZE*(START_BLOCK+(src_super_block->s_imap_blocks)+(src_super_block->s_zmap_blocks)), SEEK_SET);
 	src_inode = (d2_inode *)malloc(sizeof(d2_inode));
 
+	/* do pre-eliminary consistency check on source file system */
+	cmd = (char *)malloc(strlen("fsck ")+strlen(src_file_system)+strlen(" 2>&1 > /dev/null")+1);
+	cmd[0]=0;
+	strcat(cmd, "fsck ");
+	strcat(cmd, src_file_system);
+	strcat(cmd, " 2>&1 > /dev/null");
+
+	if(system(cmd))
+	{
+		print_error("Src file system inconsistent: ",src_file_system, ERR_INCONSISTENT_SOURCE_FS);
+	}
 	global_buffer = (unsigned char*)malloc(BLOCK_SIZE);
 
 	/* Now start the actual work of copying */
